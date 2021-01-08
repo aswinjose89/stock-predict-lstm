@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- Header -->
+<header id="header" class="header">
+    <div class="header-content">
+    </div> <!-- end of header-content -->
+</header> <!-- end of header -->
+<!-- end of header -->
+
+    <div class="container-fluid">
+          <h1 class="display-4 text-center" style="color: cornflowerblue;user-select: none;">Company Stock Training</h1>
+        <form class="modelForm" method="get" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-8">
+                   <strong>USA Companies List</strong>
+                    <select id="allCompanies" name="companies" placeholder="Search for the company..."></select>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+            </br>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="card">
+                      <div class="card-body">
+                          <h5 class="card-title">Model Training Parameters</h5>
+                           <div class="row">
+                               <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="epoch">Epoch</label>
+                                        <input type="number" class="form-control" id="epoch" name="epoch" value="100" aria-describedby="emailHelp" placeholder="Enter epoch" required>
+                                        <small class="form-text text-muted">Give the epoch count.</small>
+                                      </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="epoch">Batch Size</label>
+                                        <input type="number" class="form-control" id="batchsize" name="batchsize" value="64" aria-describedby="batchsize" placeholder="Enter Batch size" required>
+                                        <small class="form-text text-muted">Give the batch size.</small>
+                                      </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="loss">Model loss</label>
+                                        <select class="form-control" id="loss" name="model_loss" required>
+                                            <option>--select--</option>
+                                          <option value="mean_squared_error" selected>mean_squared_error</option>
+                                        </select>
+                                      </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="optimizer">Model Optimizer</label>
+                                        <select class="form-control" id="optimizer" name="model_optimizer" required>
+                                            <option>--select--</option>
+                                          <option value="adam" selected>adam</option>
+                                        </select>
+                                      </div>
+                                </div>
+                               <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="days">Number of Days</label>
+                                        <input type="number" class="form-control" id="days" name="days" value="100" aria-describedby="emailHelp" placeholder="Enter days" required>
+                                        <small class="form-text text-muted">Give past stock report days</small>
+                                      </div>
+                                </div>
+                           </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+            </br>
+            <div class="row">
+                <div class="col-md-10">
+                    <button type="submit" class="btn btn-primary float-right">Train Model</button>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+            </br>
+            {% if stock_training_dtls %}
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <h4>Trained Model Summary</h4>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-7">
+                        {% for summary in stock_training_dtls %}
+                            <div>{{ summary }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+            {% else %}
+            <div class="row" id="loading_summary">
+                <div class="col-md-2"></div>
+                <div class="col-md-7">
+                    <img src="{% static 'images/processing.gif' %}" alt="Girl in a jacket" width="500" height="600">
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+            {% endif %}
+        </form>
+    </div>
+{% endblock %}

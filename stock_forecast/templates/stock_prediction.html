@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- Header -->
+<header id="header" class="header">
+    <div class="header-content">
+    </div> <!-- end of header-content -->
+</header> <!-- end of header -->
+<!-- end of header -->
+
+    <div class="container-fluid">
+          <h1 class="display-4 text-center" style="color: cornflowerblue;user-select: none;">Stock Market Prediction</h1>
+        <form class="modelForm" method="get" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="form-group">
+                       <strong>USA Companies List</strong>
+                        <select id="trainedCompanies" name="trainedCompanies" placeholder="Search for the company..."></select>
+                        <small>Trained ML Model List. Goto <a href="#" target="_blank">Model Training</a> to train the model.</small>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <strong for="pred_days">Number of Days</strong>
+                        <input type="number" class="form-control" id="pred_days" name="pred_days" value="30" aria-describedby="emailHelp" placeholder="Enter days" required>
+                        <small class="form-text text-muted">Provide number of days to predict the future</small>
+                      </div>
+                </div>
+                <div class="col-md-8"></div>
+            </div>
+            </br>
+            <div class="row">
+                <div class="col-md-10">
+                    <button type="submit" class="btn btn-primary float-right">Process Prediction</button>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+            </br>
+            </br>
+            </br>
+            </br>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <h2>Current Price Candle Stick</h2>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="row">
+                  <div class="col-md-2"></div>
+                  <div class="col-md-8">
+                    {% if candle_stick_graph %}
+                        {% for candle_stick in candle_stick_graph %}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {{ candle_stick|safe }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-center">No graph was found.</p>
+                    {% endif %}
+                  </div>
+                  <div class="col-md-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <h2>Future Stock Market price</h2>
+                    {% if pred_plot_list %}
+                        {% for plot in pred_plot_list %}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <img src="data:image/jpeg;base64,{{ plot.pred_plot|safe }}" class="rounded">
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-center">No prediction graph was found.</p>
+                    {% endif %}
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+
+
+        </form>
+    </div>
+{% endblock %}
